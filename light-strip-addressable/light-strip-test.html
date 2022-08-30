@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/light-strip-addressable/css/main.css">
+</head>
+<body>
+  <p>Test</p>
+  <p>
+    <div class="light_square"></div>
+    <div class="light_square"></div>
+    <div class="light_square"></div>
+    <div class="light_square"></div>
+    <div class="light_square"></div>
+    <div class="light_square"></div>
+    <div class="light_square"></div>
+    <div class="light_square"></div>
+    <div class="light_square"></div>
+    <div class="light_square"></div>
+  </p>
+</body>
+<script>
+  let lightSquares = document.querySelectorAll('.light_square');
+  let squareAddress = 0; 
+  document.onkeydown = checkKey;
+  function updateSquare(lightSquares, squareAddress){
+    const squareSelected = lightSquares[squareAddress];;
+    lightSquares.forEach((square, i) => {
+      if (squareAddress === i){
+        square.style.backgroundColor = 'green'; 
+      }
+      else {
+        square.style.backgroundColor = 'red';
+      }
+    })
+  };
+
+
+  let badSquareOn = false; 
+  let badSquareAddress = 2; 
+
+  function badSquare(badSquareAddress, lightSquares){
+    console.log('bs')
+    setInterval(() => {
+      console.log('bs 2')
+      if (badSquareOn){
+        badSquareOn = false; 
+        lightSquares[badSquareAddress].style.backgroundColor = 'red';
+      }
+      else {
+        badSquareOn = true; 
+        lightSquares[badSquareAddress].style.backgroundColor = 'orange';
+      }
+    }, 1000);
+  };
+  badSquare(badSquareAddress, lightSquares); 
+
+  function checkKey(e) {
+    e = e || window.event;
+
+    if (e.keyCode == '38') {
+        // up arrow
+    }
+    else if (e.keyCode == '40') {
+        // down arrow
+    }
+    else if (e.keyCode == '37') {
+      // left arrow
+      console.log('left');
+      squareAddress--;
+      console.log(squareAddress);
+      updateSquare(lightSquares, squareAddress);
+    }
+    else if (e.keyCode == '39') {
+      console.log('right');
+      // right arrow
+      squareAddress++;
+      console.log(squareAddress);
+      updateSquare(lightSquares, squareAddress);
+    }
+  }
+  
+</script>
+</html>
