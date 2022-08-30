@@ -77,20 +77,56 @@ void setup() {
 
 void loop()
 {
-    // ChangePalettePeriodically();
-    
-    // currentPalette = RainbowColors_p;         currentBlending = LINEARBLEND;
-    
-    SetupBlackAndWhiteStripedPalette();       currentBlending = LINEARBLEND;
-    
-    static uint8_t startIndex = 0;
-    startIndex = startIndex + 1; /* motion speed */
-    
-    FillLEDsFromPaletteColors( startIndex);
-    
-    FastLED.show();
-    FastLED.delay(1000 / UPDATES_PER_SECOND);
+  // ChangePalettePeriodically();
+  
+  // currentPalette = RainbowColors_p;         currentBlending = LINEARBLEND;
+  
+  
+  
+  static uint8_t startIndex = 0;
+  startIndex = startIndex + 1; /* motion speed */
+  
+  FillLEDsFromPaletteColors( startIndex);
+  
+  FastLED.show();
+  FastLED.delay(1000 / UPDATES_PER_SECOND);
+  
+  // *** Loop for button ***
+  
+  
+  // read the pushbutton input pin:
+  buttonState = digitalRead(buttonPin);
+
+  // compare the buttonState to its previous state
+  if (buttonState != lastButtonState) {
+    // if the state has changed, increment the counter
+    if (buttonState == HIGH) {
+      // if the current state is HIGH then the button went from off to on:
+      buttonPushCounter++;
+      Serial.println("on");
+      Serial.print("number of button pushes: ");
+      Serial.println(buttonPushCounter);
+    } else {
+      // if the current state is LOW then the button went from on to off:
+      Serial.println("off");
+    }
+    // Delay a little bit to avoid bouncing
+    delay(50);
+  }
+  // save the current state as the last state, for next time through the loop
+  lastButtonState = buttonState;
+  
+  // *** End loop for button ***
+  
+
+  if (buttonPushCounter % 2 == 0){
+    SetupBlackAndWhiteStripedPalette(1);       currentBlending = LINEARBLEND;
+  }
+  else {
+    SetupBlackAndWhiteStripedPalette(0);
+  }
 }
+
 
 void FillLEDsFromPaletteColors( uint8_t colorIndex)
 {
@@ -123,8 +159,8 @@ void ChangePalettePeriodically()
         if( secondHand == 15)  { currentPalette = RainbowStripeColors_p;   currentBlending = LINEARBLEND; }
         if( secondHand == 20)  { SetupPurpleAndGreenPalette();             currentBlending = LINEARBLEND; }
         if( secondHand == 25)  { SetupTotallyRandomPalette();              currentBlending = LINEARBLEND; }
-        if( secondHand == 30)  { SetupBlackAndWhiteStripedPalette();       currentBlending = NOBLEND; }
-        if( secondHand == 35)  { SetupBlackAndWhiteStripedPalette();       currentBlending = LINEARBLEND; }
+        if( secondHand == 30)  { SetupBlackAndWhiteStripedPalette(1);       currentBlending = NOBLEND; }
+        if( secondHand == 35)  { SetupBlackAndWhiteStripedPalette(1);       currentBlending = LINEARBLEND; }
         if( secondHand == 40)  { currentPalette = CloudColors_p;           currentBlending = LINEARBLEND; }
         if( secondHand == 45)  { currentPalette = PartyColors_p;           currentBlending = LINEARBLEND; }
         if( secondHand == 50)  { currentPalette = myRedWhiteBluePalette_p; currentBlending = NOBLEND;  }
@@ -144,17 +180,27 @@ void SetupTotallyRandomPalette()
 // using code.  Since the palette is effectively an array of
 // sixteen CRGB colors, the various fill_* functions can be used
 // to set them up.
-void SetupBlackAndWhiteStripedPalette()
+void SetupBlackAndWhiteStripedPalette(int on)
 {
   
     //OS Sets how often lights up 
     // 'black out' all 16 palette entries...
     fill_solid( currentPalette, 16, CRGB::Black);
     // and set every fourth one to white.
-    currentPalette[0] = CRGB::Purple;
-    currentPalette[4] = CRGB::Purple;
-    currentPalette[8] = CRGB::Purple;
-    currentPalette[12] = CRGB::Purple;
+    
+    if (on == 1){
+      currentPalette[0] = CRGB::Purple;
+      currentPalette[4] = CRGB::Purple;
+      currentPalette[8] = CRGB::Purple;
+      currentPalette[12] = CRGB::Purple;
+    }
+    else {
+      currentPalette[0] = CRGB::Black;
+      currentPalette[4] = CRGB::Black;
+      currentPalette[8] = CRGB::Black;
+      currentPalette[12] = CRGB::Black;
+    }
+  
     
 }
 
