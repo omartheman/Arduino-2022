@@ -83,27 +83,22 @@ void loop() {
   buttonState = mapX;
 
   // compare the buttonState to its previous state
-  if (true) {
-    // if the state has changed, increment the counter
-    if (true) {
-      // if the current state is HIGH then the button went from off to on:
-      
-      if (mapX > 200){
-        buttonPushCounter++;
-      }
-      Serial.println("on");
-      Serial.println("number of button pushes: ");
-      Serial.println(buttonPushCounter);
-    } else {
-      // if the current state is LOW then the button went from on to off:
-      Serial.println("off");
-    }
-    // Delay a little bit to avoid bouncing
-    delay(50);
+  // if the current state is HIGH then the button went from off to on:
+  if (mapX > 200){
+    buttonPushCounter++;
   }
+  else if (mapX < -200){
+    buttonPushCounter--;
+  }
+  Serial.println("on");
+  Serial.println("number of button pushes: ");
+  Serial.println(buttonPushCounter);
+  // Delay a little bit to avoid bouncing
+  delay(50);
+
+
   // save the current state as the last state, for next time through the loop
   lastButtonState = buttonState;
-
 
   // turns on the LED every four button pushes by checking the modulo of the
   // button push counter. the modulo function gives you the remainder of the
