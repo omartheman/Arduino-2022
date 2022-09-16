@@ -109,7 +109,11 @@ void loop() {
     // digitalWrite(ledPin, LOW);
   }
 
+  // Remove trailing lights
   leds[buttonPushCounter - 1] = CHSV (0, 0, 0);
+  // Remove leading lights
+  leds[buttonPushCounter + 1] = CHSV (0, 0, 0);
+  // Set light color 
   leds[buttonPushCounter] = CHSV (96, 255, 192);
   FastLED.show();
   
