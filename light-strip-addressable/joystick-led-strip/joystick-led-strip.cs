@@ -57,6 +57,10 @@ void setup() {
 }
 
 
+void shoot() {
+  
+}
+
 void loop() {
   
   // ###########  JOYSTICK
@@ -74,7 +78,7 @@ void loop() {
   Serial.print(" | Button: ");
   Serial.println(SW_state);
 
-  delay(100);
+  delay(25);
   
   
   // ########### LED 
@@ -90,12 +94,18 @@ void loop() {
   else if (mapX < -200){
     buttonPushCounter--;
   }
+  
+  if (mapY > 200){
+    leds[20] = CHSV (275, 55, 100);
+  }
+  
   Serial.println("on");
   Serial.println("number of button pushes: ");
   Serial.println(buttonPushCounter);
   // Delay a little bit to avoid bouncing
   delay(50);
 
+  
 
   // save the current state as the last state, for next time through the loop
   lastButtonState = buttonState;
@@ -116,7 +126,6 @@ void loop() {
   // Set light color 
   leds[buttonPushCounter] = CHSV (96, 255, 192);
   FastLED.show();
-  
   
   
 }
