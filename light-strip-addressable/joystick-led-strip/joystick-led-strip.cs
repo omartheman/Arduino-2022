@@ -26,6 +26,11 @@ int SW_state = 0;
 int mapX = 0;
 int mapY = 0;
 
+int shot1 = 0; 
+int shot2 = 0; 
+int shot3 = 0; 
+
+int enemyPosition = 30;
 
 // this constant won't change:
 const int  buttonPin = 2;    // the pin that the pushbutton is attached to
@@ -47,8 +52,6 @@ void setup() {
   
   FastLED.addLeds<WS2812B, ledPin, RGB>(leds, NUM_LEDS);
   
-  
-  
   // ####### JOYSTICK : 
   
   pinMode(VRx, INPUT);
@@ -56,10 +59,19 @@ void setup() {
   pinMode(SW, INPUT_PULLUP); 
 }
 
-
 void shoot(int characterPosition) {
-  leds[characterPosition + 10] = CHSV (275, 55, 100);
+  // Set shot position, and variable value for shot. 
+  leds[characterPosition + 2] = CHSV (275, 55, 100);
+  shot1 = characterPosition + 2;
+  delay(10); 
+  leds[characterPosition + 3] = CHSV (275, 55, 100);  
+  shot2 = characterPosition + 3; 
+  delay(10); 
+  leds[characterPosition + 4] = CHSV (275, 55, 100);
+  shot3 = characterPosition + 4; 
 
+  // Make shots dissapear
+  delay(1000);
 }
 
 void loop() {
@@ -126,9 +138,11 @@ void loop() {
   leds[characterPosition + 1] = CHSV (0, 0, 0);
   // Set light color 
   leds[characterPosition] = CHSV (96, 255, 192);
+  
+  // Add Enemy 
+  leds[enemyPosition] = CHSV (200, 255, 255);
+
   FastLED.show();
-  
-  
 }
 /*
 
