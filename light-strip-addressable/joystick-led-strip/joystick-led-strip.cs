@@ -32,7 +32,7 @@ const int  buttonPin = 2;    // the pin that the pushbutton is attached to
 // const int ledPin = 13;       // the pin that the LED is attached to
 
 // Variables will change:
-int buttonPushCounter = 0;   // counter for the number of button presses
+int characterPosition = 0;   // counter for the number of button presses
 int buttonState = 0;         // current state of the button
 int lastButtonState = 0;     // previous state of the button
 
@@ -43,7 +43,7 @@ void setup() {
   // pinMode(ledPin, OUTPUT);
   // initialize serial communication:
   Serial.begin(9600);
-  buttonPushCounter;
+  characterPosition;
   
   FastLED.addLeds<WS2812B, ledPin, RGB>(leds, NUM_LEDS);
   
@@ -57,8 +57,9 @@ void setup() {
 }
 
 
-void shoot() {
-  
+void shoot(int characterPosition) {
+  leds[characterPosition + 10] = CHSV (275, 55, 100);
+
 }
 
 void loop() {
@@ -89,19 +90,19 @@ void loop() {
   // compare the buttonState to its previous state
   // if the current state is HIGH then the button went from off to on:
   if (mapX > 200){
-    buttonPushCounter++;
+    characterPosition++;
   }
   else if (mapX < -200){
-    buttonPushCounter--;
+    characterPosition--;
   }
   
   if (mapY > 200){
-    leds[20] = CHSV (275, 55, 100);
+    shoot(characterPosition); 
   }
   
   Serial.println("on");
   Serial.println("number of button pushes: ");
-  Serial.println(buttonPushCounter);
+  Serial.println(characterPosition);
   // Delay a little bit to avoid bouncing
   delay(50);
 
@@ -113,18 +114,18 @@ void loop() {
   // turns on the LED every four button pushes by checking the modulo of the
   // button push counter. the modulo function gives you the remainder of the
   // division of two numbers:
-  if (buttonPushCounter % 4 == 0) {
+  if (characterPosition % 4 == 0) {
     // digitalWrite(ledPin, HIGH);
   } else {
     // digitalWrite(ledPin, LOW);
   }
 
   // Remove trailing lights
-  leds[buttonPushCounter - 1] = CHSV (0, 0, 0);
+  leds[characterPosition - 1] = CHSV (0, 0, 0);
   // Remove leading lights
-  leds[buttonPushCounter + 1] = CHSV (0, 0, 0);
+  leds[characterPosition + 1] = CHSV (0, 0, 0);
   // Set light color 
-  leds[buttonPushCounter] = CHSV (96, 255, 192);
+  leds[characterPosition] = CHSV (96, 255, 192);
   FastLED.show();
   
   
