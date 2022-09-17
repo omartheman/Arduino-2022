@@ -70,8 +70,6 @@ void shoot(int characterPosition) {
   leds[characterPosition + 4] = CHSV (275, 55, 100);
   shot3 = characterPosition + 4; 
 
-  // Make shots dissapear
-  delay(1000);
 }
 
 void loop() {
@@ -90,6 +88,9 @@ void loop() {
   Serial.print(mapY);
   Serial.print(" | Button: ");
   Serial.println(SW_state);
+
+  Serial.print("Shot 3: ");
+  Serial.println(shot3);
 
   delay(25);
   
@@ -141,6 +142,11 @@ void loop() {
   
   // Add Enemy 
   leds[enemyPosition] = CHSV (200, 255, 255);
+
+  // Remove enemy if shot overlaps them 
+  if (shot3 == enemyPosition){
+    leds[enemyPosition] = CHSV (0, 0, 0);
+  }
 
   FastLED.show();
 }
