@@ -69,7 +69,6 @@ void shoot(int characterPosition) {
   delay(10); 
   leds[characterPosition + 4] = CHSV (275, 55, 100);
   shot3 = characterPosition + 4; 
-
 }
 
 void loop() {
@@ -92,7 +91,7 @@ void loop() {
   Serial.print("Shot 3: ");
   Serial.println(shot3);
 
-  delay(25);
+  delay(50);
   
   
   // ########### LED 
@@ -109,7 +108,7 @@ void loop() {
     characterPosition--;
   }
   
-  if (mapY > 200){
+  if (mapY > 450){
     shoot(characterPosition); 
   }
   
