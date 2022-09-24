@@ -15,12 +15,15 @@ void loop()
   // Do a for loop that counts up to 10 
   // and turns on the LED each time
   
-  for (int i = 0; i < 20; i++)
+  // numberRounds: # of loops the thing does 
+  int numberRounds = 16; 
+
+  for (int i = 0; i < numberRounds; i++)
   {
     // create a variable i multiplied by 100
     // and assign it to the variable delayTime
     int delayMultiplier = 50; 
-    if (i < 10){
+    if (i < numberRounds / 2){
       delayTime = i * delayMultiplier;
     }
     // When i is over 10, make lights start slowing down again.
